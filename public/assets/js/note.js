@@ -1,41 +1,18 @@
 $(document).ready(function () {
     let newNote = {};
+    // rendering notes on the left side
     function start() {
         $.ajax({
             url: "/api/notes",
             method: "GET"
         }).then((data) => {
             if (data.length > 0) {
-                $(document).on("click", "button", function () {
-                    console.log($(this).attr("value"));
-                    let noteIndex = $(this).attr("value");
-                    $.ajax({
-                        url: "/api/notes",
-                        method: "GET"
-                    }).then((data) => {
-                        $.ajax({
-                            url: "api/notes/" + data[noteIndex].id,
-                            method: "DELETE"
-                        })
-                            .then((data) => {
-                                console.log(data);
-                                console.log(typeof data);
-                                populateField(data);
-                                alert("Note Deleted!");
-                                newNote = {
-                                    title: $(".note-title").val(),
-                                    message: $(".note-textarea").val()
-                                };
-                                console.log(JSON.stringify(newNote));
-                            });
-                    })
-                })
                 populateField(data);
             }
-        })
-
-    }
+        });
+    };
     start();
+    // save note button
     $(".new-note").on("click", (event) => {
         event.preventDefault();
         console.log("save note button working");
@@ -48,7 +25,6 @@ $(document).ready(function () {
             newNote.title = $(".note-title").val();
             newNote.message = $(".note-textarea").val();
         }
-        // check(newNote);
         $.post("/api/notes", newNote)
             .then((data) => {
                 console.log(data);
@@ -62,6 +38,7 @@ $(document).ready(function () {
                 console.log(JSON.stringify(newNote));
             });
     });
+    // poputlate field function
     let populateField = (data) => {
         $(".list-group").empty();
         let a = 0;
@@ -80,7 +57,7 @@ $(document).ready(function () {
             a++;
         };
     };
-
+    // double click to edit saved notes
     $(document).on("dblclick", "li", function () {
         console.log("double click is working");
         let noteIndex = $(this).attr("id");
@@ -99,6 +76,7 @@ $(document).ready(function () {
             console.log(JSON.stringify(newNote));
         })
     });
+    // deleteing the saved note
     $(document).on("click", "button", function () {
         console.log($(this).attr("value"));
         let noteIndex = $(this).attr("value");
