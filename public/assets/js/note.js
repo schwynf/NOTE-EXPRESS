@@ -104,15 +104,3 @@ $(document).ready(function () {
 });
 
 
-// function check(newNote){
-//     if (newNote.id === undefined) {
-//         newNote = {
-//             title: $(".note-title").val(),
-//             message: $(".note-textarea").val()
-//         };
-//     }else{
-//         newNote.title =  $(".note-title").val();
-//         newNote.message =  $(".note-textarea").val();
-//     }
-// }
-
